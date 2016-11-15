@@ -1,20 +1,31 @@
 #include <iostream>
 #include <queue>
 
-class FIFOMemory
+class Memory
 {
-private:
-	std::deque<int> cache;
+protected:
 	int size_of_cache;
 	int missed_penalty;
 
 public:
-	FIFOMemory() {};
-	FIFOMemory(int size_of, int miss)
+	Memory() {}
+	Memory(int size_of, int penalty)
 	{
 		size_of_cache = size_of;
-		missed_penalty = miss;
+		missed_penalty = penalty;
 	}
+	virtual int accessMemory(int page_number) { return 0; }
+	virtual void addToMemory() { }
+};
+
+class FIFOMemory : public Memory
+{
+private:
+	std::deque<int> cache;
+
+public:
+	FIFOMemory() : Memory() {};
+	FIFOMemory(int size_of, int miss) : Memory(size_of, miss) { }
 
 	int accessMemory(int page_number)
 	{

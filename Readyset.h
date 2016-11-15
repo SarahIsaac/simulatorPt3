@@ -10,15 +10,14 @@ class BaseReadySet
 public:
 	int context_switch;
 	int idle_cpu_count;
-	FIFOMemory memory;
+	Memory*  memory;
 
 	BaseReadySet() {}
 	BaseReadySet(int cpu_count, int c_switch, int miss_penalty, int size_of)
 	{
 		idle_cpu_count = cpu_count;
 		context_switch = c_switch;
-		FIFOMemory m(size_of, miss_penalty);
-		memory = m;
+		memory = new FIFOMemory(size_of, miss_penalty);
 	}
 
 	bool ableToAdd()
@@ -34,7 +33,7 @@ public:
 	virtual CPUEvent scheduleNext(Task &t, int current_time)
 	{
 		int exec_time = t.get_job().duration + current_time + context_switch;
-		exec_time += memory.accessMemory(t.get_job().resource_id);
+		exec_time += memory->accessMemory(t.get_job().resource_id);
 		CPUEvent e(exec_time, t);
 		return e;
 	};
@@ -188,7 +187,7 @@ public:
 			t.setCurrentDuration(0);
 		}
 		int exec_time = time + current_time + context_switch;
-		exec_time += memory.accessMemory(t.get_job().resource_id);
+		exec_time += memory->accessMemory(t.get_job().resource_id);
 		CPUEvent e(exec_time, t);
 		return e;
 	}
