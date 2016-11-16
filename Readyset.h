@@ -17,7 +17,7 @@ public:
 	{
 		idle_cpu_count = cpu_count;
 		context_switch = c_switch;
-		memory = new FIFOMemory(size_of, miss_penalty);
+		memory = new LRUMemory(size_of, miss_penalty);
 	}
 
 	bool ableToAdd()
@@ -91,7 +91,7 @@ private:
 	std::priority_queue<Task, std::vector<Task>, CompareTask> task_queue;
 
 public:
-	SJFReadySet() :BaseReadySet() {}
+	SJFReadySet() : BaseReadySet() {}
 	SJFReadySet(int cpu, int c_switch, int miss_penalty, int size_of) : BaseReadySet(cpu, c_switch, miss_penalty, size_of) {};
 
 	void pushToWait(Task &t) { task_queue.push(t); }

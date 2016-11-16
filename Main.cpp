@@ -14,7 +14,7 @@ int main()
 	//EventQueue(int cpu_c, double mix, double freq, int io, int cost, std::string ready_set_type)
 
 	std::cout << "FIFO with taskmix ratio 1/1" << std::endl;
-	EventQueue event_q(2, 1, 10, 2, 4, "fifo", 1, 6, 1, 10);
+	EventQueue event_q(2, 1, 10, 2, 4, "fifo", 1, 34, 1, 30);
 	event_q.start_simulator();
 	std::cout << std::endl;
 
