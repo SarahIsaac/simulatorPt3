@@ -90,16 +90,20 @@ public:
 
 	int accessMemory(int page_number)
 	{
-		for (int i = 0; i < cache.size() - 1; i++)
+		if (cache.size() == 0) addToMemory(page_number);
+		else
 		{
-			if (cache[i] == page_number)
+			for (int i = 0; i < cache.size() - 1; i++)
 			{
-				cache.erase(cache.begin() + cache[i]);
-				cache.push_back(page_number);
-				return 0;
+				if (cache[i] == page_number)
+				{
+					cache.erase(cache.begin() + i);
+					cache.push_back(page_number);
+					return 0;
+				}
 			}
+			addToMemory(page_number);
 		}
-		addToMemory(page_number);
 		return missed_penalty;
 	}
 
