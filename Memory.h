@@ -30,12 +30,9 @@ public:
 
 	int accessMemory(int page_number)
 	{
-		for each (int page_num in cache)
+		for (int i = 0; i < cache.size() - 1; i++)
 		{
-			if (page_num == page_number)
-			{
-				return 0;
-			}
+			if (cache[i] == page_number) return 0;
 		}
 		addToMemory(page_number);
 		return missed_penalty;	
@@ -62,12 +59,9 @@ public:
 
 	int accessMemory(int page_number)
 	{
-		for each (int page_num in cache)
+		for (int i = 0; i < cache.size() - 1; i++)
 		{
-			if (page_num == page_number)
-			{
-				return 0;
-			}
+			if (cache[i] == page_number) return 0;
 		}
 		addToMemory(page_number);
 		return missed_penalty;
@@ -88,7 +82,7 @@ public:
 class LRUMemory : public Memory
 {
 private:
-	std::list<int> cache;
+	std::deque<int> cache;
 
 public:
 	LRUMemory() : Memory() {};
@@ -96,11 +90,11 @@ public:
 
 	int accessMemory(int page_number)
 	{
-		for each (int page_num in cache)
+		for (int i = 0; i < cache.size() - 1; i++)
 		{
-			if (page_num == page_number)
+			if (cache[i] == page_number)
 			{
-				cache.remove(page_number);
+				cache.erase(cache.begin() + cache[i]);
 				cache.push_back(page_number);
 				return 0;
 			}
@@ -193,11 +187,6 @@ public:
 			cache.erase(cache.begin() + current_index);
 			SecondChancePage s = { page_number, false };
 			cache.push_back(s);
-		}
-
-		for each (SecondChancePage page in cache)
-		{
-			page.safe = false;
 		}
 	}
 };
