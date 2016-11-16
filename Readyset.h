@@ -13,11 +13,14 @@ public:
 	Memory*  memory;
 
 	BaseReadySet() {}
-	BaseReadySet(int cpu_count, int c_switch, int miss_penalty, int size_of)
+	BaseReadySet(int cpu_count, int c_switch, int miss_penalty, int size_of, std::string memory_type)
 	{
 		idle_cpu_count = cpu_count;
 		context_switch = c_switch;
-		memory = new FIFOMemory(size_of, miss_penalty);
+		if (memory_type == "MRU") memory = new MRUMemory(size_of, miss_penalty);
+		else if (memory_type == "LRU") memory = new LRUMemory(size_of, miss_penalty);
+		else if (memory_type == "FIFO") memory = new FIFOMemory(size_of, miss_penalty);
+		else if (memory_type == "SC") memory = new SecondChanceMemory(size_of, miss_penalty);
 	}
 
 	bool ableToAdd()
@@ -55,7 +58,7 @@ private:
 
 public:
 	FIFOReadySet() :BaseReadySet() {}
-	FIFOReadySet(int cpu, int c_switch, int miss_penalty, int size_of) : BaseReadySet(cpu, c_switch, miss_penalty, size_of) {};
+	FIFOReadySet(int cpu, int c_switch, int miss_penalty, int size_of, std::string mem_type) : BaseReadySet(cpu, c_switch, miss_penalty, size_of, mem_type) {};
 
 	void pushToWait(Task &t)
 	{
@@ -92,7 +95,7 @@ private:
 
 public:
 	SJFReadySet() : BaseReadySet() {}
-	SJFReadySet(int cpu, int c_switch, int miss_penalty, int size_of) : BaseReadySet(cpu, c_switch, miss_penalty, size_of) {};
+	SJFReadySet(int cpu, int c_switch, int miss_penalty, int size_of, std::string mem_type) : BaseReadySet(cpu, c_switch, miss_penalty, size_of, mem_type) {};
 
 	void pushToWait(Task &t) { task_queue.push(t); }
 
@@ -126,7 +129,7 @@ private:
 
 public:
 	ASJFReadySet() : BaseReadySet() {}
-	ASJFReadySet(int cpu, int c_switch, int standard_start, int miss_penalty, int size_of) : BaseReadySet(cpu, c_switch, miss_penalty, size_of)
+	ASJFReadySet(int cpu, int c_switch, int standard_start, int miss_penalty, int size_of, std::string mem_type) : BaseReadySet(cpu, c_switch, miss_penalty, size_of, mem_type)
 	{
 		standard_start_approx = standard_start;
 	};
@@ -166,7 +169,7 @@ private:
 
 public:
 	RoundRobinReadySet() :BaseReadySet() {}
-	RoundRobinReadySet(int cpu, int c_switch, int i_time, int miss_penalty, int size_of) : BaseReadySet(cpu, c_switch, miss_penalty, size_of)
+	RoundRobinReadySet(int cpu, int c_switch, int i_time, int miss_penalty, int size_of, std::string mem_type) : BaseReadySet(cpu, c_switch, miss_penalty, size_of, mem_type)
 	{
 		interrupt_time = i_time;
 	};

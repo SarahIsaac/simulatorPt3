@@ -63,21 +63,28 @@ public:
 
 	int accessMemory(int page_number)
 	{
-		for (int i = 0; i < cache.size() - 1; i++)
+		if (cache.size() == 0) addToMemory(page_number);
+		else
 		{
-			if (cache[i] == page_number) return 0;
+			for (int i = 0; i < cache.size() - 1; i++)
+			{
+				if (cache[i] == page_number)
+				{
+					cache.erase(cache.begin() + i);
+					cache.push_back(page_number);
+					return 0;
+				}
+			}
+			addToMemory(page_number);
 		}
-		addToMemory(page_number);
 		return missed_penalty;
 	}
 
 	void addToMemory(int page_num)
 	{
-		// TODO correctly implement this algorithm
-		// will somehow need to know the task..or the whole thing of tasks?....
 		if (cache.size() > size_of_cache)
 		{
-			cache.pop_front();
+			cache.pop_back();
 		}
 		cache.push_back(page_num);
 	}

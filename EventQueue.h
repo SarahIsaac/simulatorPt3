@@ -37,7 +37,7 @@ public:
 	BaseReadySet *ready_set;
 	std::vector<Device> io_devices;
 
-	EventQueue(int cpu_c, double mix, double freq, int io, int cost, std::string ready_set_type, int min_p, int max_p, int penalty, int size_of_cache)
+	EventQueue(int cpu_c, double mix, double freq, int io, int cost, std::string ready_set_type, int min_p, int max_p, int penalty, int size_of_cache, std::string mem_type)
 	{
 		srand(time(NULL));
 
@@ -55,10 +55,10 @@ public:
 		total_processes = 100;
 		int interrupt_time = 10;
 
-		if (ready_set_type == "fifo") ready_set = new FIFOReadySet(cpu_count, context_switch, penalty, size_of_cache);
-		else if (ready_set_type == "sjf") ready_set = new SJFReadySet(cpu_count, context_switch, penalty, size_of_cache);
-		else if (ready_set_type == "rr") ready_set = new RoundRobinReadySet(cpu_count, context_switch, interrupt_time, penalty, size_of_cache);
-		else if (ready_set_type == "asjf") ready_set = new ASJFReadySet(cpu_count, context_switch, 10, penalty, size_of_cache);
+		if (ready_set_type == "fifo") ready_set = new FIFOReadySet(cpu_count, context_switch, penalty, size_of_cache, mem_type);
+		else if (ready_set_type == "sjf") ready_set = new SJFReadySet(cpu_count, context_switch, penalty, size_of_cache, mem_type);
+		else if (ready_set_type == "rr") ready_set = new RoundRobinReadySet(cpu_count, context_switch, interrupt_time, penalty, size_of_cache, mem_type);
+		else if (ready_set_type == "asjf") ready_set = new ASJFReadySet(cpu_count, context_switch, 10, penalty, size_of_cache, mem_type);
 
 		std::string task_type;
 
