@@ -17,7 +17,7 @@ public:
 	{
 		idle_cpu_count = cpu_count;
 		context_switch = c_switch;
-		memory = new LRUMemory(size_of, miss_penalty);
+		memory = new FIFOMemory(size_of, miss_penalty);
 	}
 
 	bool ableToAdd()
