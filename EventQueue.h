@@ -55,10 +55,10 @@ public:
 		total_processes = 100;
 		int interrupt_time = 10;
 
-		if (ready_set_type == "fifo") ready_set = new FIFOReadySet(cpu_count, context_switch, penalty, size_of_cache, mem_type);
-		else if (ready_set_type == "sjf") ready_set = new SJFReadySet(cpu_count, context_switch, penalty, size_of_cache, mem_type);
-		else if (ready_set_type == "rr") ready_set = new RoundRobinReadySet(cpu_count, context_switch, interrupt_time, penalty, size_of_cache, mem_type);
-		else if (ready_set_type == "asjf") ready_set = new ASJFReadySet(cpu_count, context_switch, 10, penalty, size_of_cache, mem_type);
+		if (ready_set_type == "FIFO") ready_set = new FIFOReadySet(cpu_count, context_switch, penalty, size_of_cache, mem_type);
+		else if (ready_set_type == "SJF") ready_set = new SJFReadySet(cpu_count, context_switch, penalty, size_of_cache, mem_type);
+		else if (ready_set_type == "RR") ready_set = new RoundRobinReadySet(cpu_count, context_switch, interrupt_time, penalty, size_of_cache, mem_type);
+		else if (ready_set_type == "ASJF") ready_set = new ASJFReadySet(cpu_count, context_switch, 10, penalty, size_of_cache, mem_type);
 
 		std::string task_type;
 
